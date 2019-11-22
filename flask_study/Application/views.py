@@ -5,8 +5,8 @@
 """
 from flask import Flask,views,jsonify
 from flask import request,redirect,url_for,render_template,flash
-from Application.model import User
-from Application import db
+from ..Application.model import User
+from ..Application import db
 import json
 class JsonView(views.View):
     def get_data(self):

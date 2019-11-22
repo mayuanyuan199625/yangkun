@@ -26,7 +26,7 @@ view_func：对应的函数，即这个url对应的是哪一个函数，注意�
 
 #注册路由方法 QAQ
 def handle_route(app):
-    from Application.views import ListView,LoginView,Regist
+    from ..Application.views import ListView,LoginView,Regist
     #主页
     app.add_url_rule('/', view_func=ListView.as_view('index'))
     #登陆
