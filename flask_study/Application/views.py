@@ -44,7 +44,7 @@ class LoginView(views.MethodView):
             return "账号或者密码为空"
 
 
-"""注册类提交是否成功"""
+"""注册类提交是否成功vv"""
 class Regist(views.MethodView):
     def __init__(self):
         self.error = None
