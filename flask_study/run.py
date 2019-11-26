@@ -1,5 +1,5 @@
-from .Application import create_app
-from .Application.model import User
+from flask_study.Application import create_app
+from flask_study.Application.model import User
 def main():
     app = create_app()
     app.run('127.0.0.1',8000)
