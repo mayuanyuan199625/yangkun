@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>欢迎您的访问</title>
+</head>
+<body>
+<h1>主页</h1>
+        {% if username %}
+            <p>{{username}}，欢迎来到主页！ <a href="{{ url_for('panel') }}">个人中心</a> <a href="#">注销</a></p>
+        {% else %}
+            <p>欢迎来到主页！ <a href="{{ url_for('login') }}">登录</a> <a href="{{ url_for('regist') }}">注册</a></p>
+        {% endif %}
+</body>
+</html>

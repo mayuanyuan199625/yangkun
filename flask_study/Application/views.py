@@ -9,7 +9,7 @@ from flask import request,redirect,url_for,render_template,flash,session
 from ..Application.model import User
 from ..Application import db
 from sqlalchemy.ext.declarative import DeclarativeMeta
-from functools import wraps
+from flask_study.Application.decor import login_required
 import json
 
 
@@ -32,28 +32,18 @@ class AlchemyEncoder(json.JSONEncoder):
         return json.JSONEncoder.default(self, obj)
 
 
-class JsonView(views.View):
-    def get_data(self):
-        raise NotImplementedError #get_data 必须实现 不实现会报错
+class Main(views.View):
+    def home(self):
+        raise NotImplementedError #home 必须实现 不实现会报错
 
     def dispatch_request(self):
-        return jsonify(self.get_data())
+        return self.home()
 
 
-class ListView(JsonView):
-    def get_data(self):
-        return {'username':'zhangsan','password':'1111111'}
+class ListView(Main):
+    def home(self):
+        return render_template('home.html',username=session.get('username'))
 
-
-"""登陆检测装饰器"""
-def login_required(func):
-    @wraps(func)
-    def wrapper(*args,**kwargs):
-        if session.get('username'):
-            return func(*args,**kwargs)
-        else:
-            return redirect(url_for('login'))
-    return wrapper
 
 
 """登陆验证"""
@@ -67,7 +57,7 @@ class LoginView(views.MethodView):
         if self.valid_login(request.form['username'],request.form['password']):
             flash("成功登陆!")
             session['username'] = request.form.get('username')
-            return redirect(url_for('home'))
+            return redirect(url_for('index'))
         else:
             error = "用户名或者密码错误！！！"
         return render_template('login.html',error=error)
@@ -104,8 +94,11 @@ class Regist(views.MethodView):
 
 """个人中心"""
 class Panel(views.MethodView):
-     decorators = {
-         'get':[login_required],
-     }
+     #类视图添加装饰器
+     decorators = [login_required,]
+
      def get(self):
-         pass
+         print(request.url_rule)
+         username = session.get('username')
+         user = User.query.filter(User.nickname==username).first()
+         return render_template('panel.html',user=user)
