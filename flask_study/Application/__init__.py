@@ -5,7 +5,9 @@ from flask_sqlalchemy import SQLAlchemy
 # instance_relative_config 是否自定义配置文件
 db = SQLAlchemy()
 def create_app():
-    app = Flask(__name__,template_folder='./templates',instance_relative_config=False)
+    app = Flask(__name__,template_folder='./templates',
+                static_folder='./static',
+                instance_relative_config=False)
     app.config.from_object('config')
     app.config['SECRET_KEY'] = '123456'
     db.init_app(app)
